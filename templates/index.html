@@ -1,53 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Face Similarity Meter</title>
-    <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
-        h1 { text-align: center; color: #333; }
-        .container { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        button { background: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-size: 16px; }
-        button:hover { background: #0056b3; }
-        .result { margin-top: 20px; padding: 20px; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 4px; text-align: center; }
-        .error { color: red; background: #ffebee; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .note { font-size: 0.9em; color: #666; margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <h1>Face Similarity Meter</h1>
-    
     <div class="container">
+        <header>
+            <h1>Face Similarity Meter</h1>
+            <p class="subtitle">Compare two faces using Euclidean distance</p>
+        </header>
+
         {% if error %}
-            <div class="error">{{ error }}</div>
+        <div class="error-msg">{{ error }}</div>
         {% endif %}
 
         <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="image1">Upload First Face Image:</label>
+            <div class="upload-section">
+                <label for="image1">First Face Image</label>
                 <input type="file" name="image1" id="image1" accept=".png,.jpg,.jpeg" required>
             </div>
-            
-            <div class="form-group">
-                <label for="image2">Upload Second Face Image:</label>
+
+            <div class="upload-section">
+                <label for="image2">Second Face Image</label>
                 <input type="file" name="image2" id="image2" accept=".png,.jpg,.jpeg" required>
             </div>
-            
-            <button type="submit">Compare Faces</button>
+
+            <button type="submit" class="btn-primary">Calculate and Compare</button>
         </form>
 
         {% if distance is not none %}
-            <div class="result">
-                <h2>Euclidean Distance: {{ "%.2f"|format(distance) }}</h2>
-                <div class="note">
-                    <p><strong>Interpretation:</strong> Lower distance means higher similarity.</p>
-                    <p>0.00 = Identical Images</p>
-                </div>
+        <div class="result-card">
+            <h2>Similarity Score</h2>
+            <div class="score">{{ "%.2f"|format(distance) }}</div>
+            <div class="note">
+                <p>Lower score = Higher similarity</p>
+                <small>(0.00 would be identical)</small>
             </div>
+        </div>
         {% endif %}
     </div>
 </body>
+
 </html>
