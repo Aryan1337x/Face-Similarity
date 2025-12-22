@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from utils import load_image_as_matrix, flatten_matrix
-from similarity import calculate_euclidean_distance
+from similarity import calculate_euclidean_distance, calculate_similarity_percentage
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -18,6 +18,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     distance = None
+    similarity = None
     error = None
 
     if request.method == 'POST':
@@ -43,7 +44,6 @@ def index():
             file2.save(path2)
             
             try:
-                # Reuse existing math logic
                 matrix1 = load_image_as_matrix(path1)
                 vec1 = flatten_matrix(matrix1)
                 
@@ -51,13 +51,14 @@ def index():
                 vec2 = flatten_matrix(matrix2)
                 
                 distance = calculate_euclidean_distance(vec1, vec2)
+                similarity = calculate_similarity_percentage(distance)
                 
             except Exception as e:
                 error = f"Error processing images: {str(e)}"
         else:
             error = 'Allowed file types are png, jpg, jpeg'
 
-    return render_template('index.html', distance=distance, error=error)
+    return render_template('index.html', distance=distance, similarity=similarity, error=error)
 
 if __name__ == '__main__':
     app.run(debug=True)
