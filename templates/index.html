@@ -37,12 +37,19 @@
 
         {% if distance is not none %}
         <div class="result-card">
-            <h2>Similarity Score</h2>
-            <div class="score">{{ "%.2f"|format(distance) }}</div>
-            <div class="note">
-                <p>Lower score = Higher similarity</p>
-                <small>(0.00 would be identical)</small>
+            <h2>Results</h2>
+
+            <div class="similarity-section">
+                <h3>Similarity</h3>
+                <div class="score percentage">{{ "%.2f"|format(similarity) }}%</div>
             </div>
+
+            <div class="distance-section">
+                <h4>Euclidean Distance</h4>
+                <div class="score distance">{{ "%.2f"|format(distance) }}</div>
+            </div>
+
+
         </div>
         {% endif %}
     </div>
