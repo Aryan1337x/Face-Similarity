@@ -23,11 +23,13 @@
             <div class="upload-section">
                 <label for="image1">First Face Image</label>
                 <input type="file" name="image1" id="image1" accept=".png,.jpg,.jpeg" required>
+                <img id="preview-image1" class="preview-img" src="#" alt="Image 1 Preview" style="display: none;">
             </div>
 
             <div class="upload-section">
                 <label for="image2">Second Face Image</label>
                 <input type="file" name="image2" id="image2" accept=".png,.jpg,.jpeg" required>
+                <img id="preview-image2" class="preview-img" src="#" alt="Image 2 Preview" style="display: none;">
             </div>
 
             <button type="submit" class="btn-primary">Calculate and Compare</button>
@@ -44,6 +46,7 @@
         </div>
         {% endif %}
     </div>
+    <script src="{{ url_for('static', filename='preview.js') }}"></script>
 </body>
 
 </html>
