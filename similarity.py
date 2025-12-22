@@ -12,5 +12,14 @@ def calculate_euclidean_distance(vec1, vec2):
     
     return distance
 
+def calculate_similarity_percentage(distance):
+    MAX_DISTANCE = 25500
+    
+    if distance > MAX_DISTANCE:
+        return 0.0
+        
+    similarity = 100 * (1 - (distance / MAX_DISTANCE))
+    return round(max(0.0, min(100.0, similarity)), 2)
+
 def explain_calculation_step(vec1, vec2, limit=5):
     pass
